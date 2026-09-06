@@ -1,0 +1,94 @@
+@model IEnumerable<OnlineMovieTicketBooking.ViewModels.ShowScheduleVM>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Show Schedules</h1>
+
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Screen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShowDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShowStartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShowEndTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegularPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PremiumPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReclinerPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShowIsActive)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Movie!.MovTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Screen!.ScreenName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShowDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShowStartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShowEndTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegularPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PremiumPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReclinerPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShowIsActive)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.ShowScheduleId">Details</a>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <span> | </span>
+                        <a asp-action="Edit" asp-route-id="@item.ShowScheduleId">Edit</a>
+                        <span> | </span>
+                        <a asp-action="Delete" asp-route-id="@item.ShowScheduleId">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

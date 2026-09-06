@@ -1,0 +1,82 @@
+@model OnlineMovieTicketBooking.ViewModels.ShowScheduleVM
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit Show Schedule</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="ShowScheduleId" />
+
+            <div class="form-group">
+                <label class="control-label">Movie</label>
+                <input value="@Model.Movie?.MovTitle" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Screen</label>
+                <input value="@Model.Screen?.ScreenName" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ShowDate" class="control-label"></label>
+                <input asp-for="ShowDate" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ShowStartTime" class="control-label"></label>
+                <input asp-for="ShowStartTime" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ShowEndTime" class="control-label"></label>
+                <input asp-for="ShowEndTime" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RegularPrice" class="control-label"></label>
+                <input asp-for="RegularPrice" class="form-control" />
+                <span asp-validation-for="RegularPrice" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PremiumPrice" class="control-label"></label>
+                <input asp-for="PremiumPrice" class="form-control" />
+                <span asp-validation-for="PremiumPrice" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ReclinerPrice" class="control-label"></label>
+                <input asp-for="ReclinerPrice" class="form-control" />
+                <span asp-validation-for="ReclinerPrice" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ShowIsActive" class="control-label"></label>
+                <input asp-for="ShowIsActive" class="form-check-input" />
+                <span asp-validation-for="ShowIsActive" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

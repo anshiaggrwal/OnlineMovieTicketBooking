@@ -1,0 +1,64 @@
+@model IEnumerable<OnlineMovieTicketBooking.ViewModels.TheatreVM>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TheaName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TheaAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TheaCIty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TheaIsActive)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.TheaName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.TheaAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.TheaCIty)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.TheaIsActive)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.TheatreId">Details</a>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <span> | </span>
+                        <a asp-action="Edit" asp-route-id="@item.TheatreId">Edit</a>
+                        <span> | </span>
+                        <a asp-action="Delete" asp-route-id="@item.TheatreId">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

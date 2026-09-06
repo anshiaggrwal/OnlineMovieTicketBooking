@@ -1,0 +1,72 @@
+@model OnlineMovieTicketBooking.ViewModels.ScreenVM
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Screen Details</h1>
+
+<div>
+    <hr />
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            Theatre
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Theatre?.TheaName
+        </dd>
+
+        <dt class="col-sm-2">
+            Screen Name
+        </dt>
+        <dd class="col-sm-10">
+            @Model.ScreenName
+        </dd>
+
+        <dt class="col-sm-2">
+            Regular Seats
+        </dt>
+        <dd class="col-sm-10">
+            @Model.RegularSeats
+        </dd>
+
+        <dt class="col-sm-2">
+            Premium Seats
+        </dt>
+        <dd class="col-sm-10">
+            @Model.PremiumSeats
+        </dd>
+
+        <dt class="col-sm-2">
+            Recliner Seats
+        </dt>
+        <dd class="col-sm-10">
+            @Model.ReclinerSeats
+        </dd>
+
+        <dt class="col-sm-2">
+            Total Seats
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TotalSeats
+        </dd>
+
+        <dt class="col-sm-2">
+            Active
+        </dt>
+        <dd class="col-sm-10">
+            @Model.ScreenIsActive
+        </dd>
+    </dl>
+</div>
+
+<div>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.ScreenId">Edit</a>
+        <span> | </span>
+    }
+
+    <a asp-action="Index">Back to List</a>
+</div>

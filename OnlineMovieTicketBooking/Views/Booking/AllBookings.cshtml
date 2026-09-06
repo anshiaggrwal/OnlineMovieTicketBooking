@@ -1,0 +1,75 @@
+﻿@model List<OnlineMovieTicketBooking.Models.BookingModel>
+
+<h2>All Bookings</h2>
+
+@if (Model.Count == 0)
+{
+    <p>No bookings found.</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Booking Reference</th>
+                <th>User Email</th>
+                <th>Movie</th>
+                <th>Screen</th>
+                <th>Show Date</th>
+                <th>Show Time</th>
+                <th>Seats</th>
+                <th>Total Amount</th>
+                <th>Booking Status</th>
+                <th>Payment Status</th>
+                <th>Payment Method</th>
+                <th>Transaction ID</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>@booking.BookingReference</td>
+
+                    <td>@booking.User?.Email</td>
+
+                    <td>@booking.ShowSchedule?.Movie?.MovTitle</td>
+
+                    <td>@booking.ShowSchedule?.Screen?.ScreenName</td>
+
+                    <td>@booking.ShowSchedule?.ShowDate</td>
+
+                    <td>
+                        @booking.ShowSchedule?.ShowStartTime -
+                        @booking.ShowSchedule?.ShowEndTime
+                    </td>
+
+                    <td>
+                        @if (booking.BookingSeats != null)
+                        {
+                            @foreach (var seat in booking.BookingSeats)
+                            {
+                                <span>
+                                    @seat.Seat?.RowNum@seat.Seat?.SeatNum
+                                </span>
+
+                                <br />
+                            }
+                        }
+                    </td>
+
+                    <td>₹@booking.TotalAmount</td>
+
+                    <td>@booking.BookingStatus</td>
+
+                    <td>@booking.Payment?.PaymentStatus</td>
+
+                    <td>@booking.Payment?.PaymentMethod</td>
+
+                    <td>@booking.Payment?.TransactionId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

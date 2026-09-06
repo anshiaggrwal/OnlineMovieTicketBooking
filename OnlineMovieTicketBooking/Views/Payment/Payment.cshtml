@@ -1,0 +1,39 @@
+﻿@model OnlineMovieTicketBooking.ViewModels.PaymentVM
+
+<h2>Payment</h2>
+
+<div>
+    <h4>Booking Id: @Model.BookingId</h4>
+
+    <h3>Total Amount: ₹@Model.Amount</h3>
+
+    <p>Scan the QR code to make payment.</p>
+
+    <img src="~/images/Payment-qr.jpeg" alt="Payment QR Code" width="250" />
+
+    <p>Demo Payment</p>
+</div>
+
+<form asp-action="Payment" method="post">
+
+    <input type="hidden" asp-for="BookingId" />
+    <input type="hidden" asp-for="Amount" />
+
+    <div>
+        <label asp-for="PaymentMethod"></label>
+
+        <select asp-for="PaymentMethod"
+                asp-items="Html.GetEnumSelectList<OnlineMovieTicketBooking.Models.PaymentMethod>()">
+            <option value="">Select Payment Method</option>
+        </select>
+
+        <span asp-validation-for="PaymentMethod"></span>
+    </div>
+
+    <br />
+
+    <button type="submit">Pay Now</button>
+
+    <div asp-validation-summary="All"></div>
+
+</form>

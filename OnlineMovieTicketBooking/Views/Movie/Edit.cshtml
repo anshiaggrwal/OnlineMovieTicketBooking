@@ -1,0 +1,80 @@
+@model OnlineMovieTicketBooking.ViewModels.MovieVM
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>MovieModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="MovieId" />
+
+            <div class="form-group">
+                <label asp-for="MovTitle" class="control-label"></label>
+                <input asp-for="MovTitle" class="form-control" />
+                <span asp-validation-for="MovTitle" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MovDescription" class="control-label"></label>
+                <input asp-for="MovDescription" class="form-control" />
+                <span asp-validation-for="MovDescription" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MovGenre" class="control-label"></label>
+                <input asp-for="MovGenre" class="form-control" />
+                <span asp-validation-for="MovGenre" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MovLanguage" class="control-label"></label>
+                <input asp-for="MovLanguage" class="form-control" />
+                <span asp-validation-for="MovLanguage" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MovDuration" class="control-label"></label>
+                <input asp-for="MovDuration" class="form-control" />
+                <span asp-validation-for="MovDuration" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MovRelDate" class="control-label"></label>
+                <input asp-for="MovRelDate" class="form-control" />
+                <span asp-validation-for="MovRelDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MovPosterUrl" class="control-label"></label>
+                <input asp-for="MovPosterUrl" class="form-control" />
+                <span asp-validation-for="MovPosterUrl" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MovIsActive" class="control-label"></label>
+                <input asp-for="MovIsActive" class="form-check-input" />
+                <span asp-validation-for="MovIsActive" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

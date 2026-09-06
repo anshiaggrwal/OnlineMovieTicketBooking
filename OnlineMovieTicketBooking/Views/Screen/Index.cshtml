@@ -1,0 +1,82 @@
+@model IEnumerable<OnlineMovieTicketBooking.ViewModels.ScreenVM>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Screens</h1>
+
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Theatre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ScreenName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegularSeats)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PremiumSeats)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReclinerSeats)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalSeats)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ScreenIsActive)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Theatre?.TheaName
+                </td>
+                <td>
+                    @item.ScreenName
+                </td>
+                <td>
+                    @item.RegularSeats
+                </td>
+                <td>
+                    @item.PremiumSeats
+                </td>
+                <td>
+                    @item.ReclinerSeats
+                </td>
+                <td>
+                    @item.TotalSeats
+                </td>
+                <td>
+                    @item.ScreenIsActive
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.ScreenId">Details</a>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <span> | </span>
+                        <a asp-action="Edit" asp-route-id="@item.ScreenId">Edit</a>
+                        <span> | </span>
+                        <a asp-action="Delete" asp-route-id="@item.ScreenId">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
