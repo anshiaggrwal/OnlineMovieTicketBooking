@@ -11,7 +11,7 @@ namespace OnlineMovieTicketBooking.Models
 
         [Required(ErrorMessage = "User is required")]
         [ForeignKey("User")]
-        public string UserId { get; set; } = string.Empty;   //will create in repository var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)
+        public string? UserId { get; set; }   //will create in repository var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)
 
         [Required(ErrorMessage = "Show is required")]
         [ForeignKey("ShowSchedule")]
