@@ -11,6 +11,7 @@ namespace OnlineMovieTicketBooking.Data
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
             string[] roleName = { "Admin", "User" };
+
             foreach(string role in roleName)
             {
                 if (!await roleManager.RoleExistsAsync(role))

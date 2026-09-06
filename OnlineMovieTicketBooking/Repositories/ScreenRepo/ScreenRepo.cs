@@ -54,14 +54,13 @@ namespace OnlineMovieTicketBooking.Repositories.ScreenRepo
 
         public async Task<ScreenModel> GetScreenById(int screenId)
         {
-            return await _context.Screens.Where(x => x.ScreenId == screenId).FirstOrDefaultAsync();
+            return await _context.Screens.AsNoTracking().Where(x => x.ScreenId == screenId).FirstOrDefaultAsync();
         }
 
         public async Task<int> UpdateScreen(ScreenModel screen)
         {
             try
             {
-
                 _context.Screens.Update(screen);
                 await _context.SaveChangesAsync();
                 return 1;

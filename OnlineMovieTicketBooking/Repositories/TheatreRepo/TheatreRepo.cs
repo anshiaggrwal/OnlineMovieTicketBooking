@@ -50,7 +50,7 @@ namespace OnlineMovieTicketBooking.Repositories.TheatreRepo
 
         public async Task<TheatreModel> GetTheatreById(int theatreId)
         {
-            return await _context.Theatres.Where(x=>x.TheatreId == theatreId).FirstOrDefaultAsync();
+            return await _context.Theatres.AsNoTracking().Where(x=>x.TheatreId == theatreId).FirstOrDefaultAsync();
         }
 
         public async Task<int> UpdateTheatre(TheatreModel theatre)

@@ -121,6 +121,7 @@ namespace OnlineMovieTicketBooking.DAL
             modelBuilder.Entity<BookingSeatModel>()
                 .HasIndex(x => new { x.ShowScheduleId, x.SeatId })
                 .IsUnique();
+  
 
             // Same seat cannot be duplicated in same Screen
             modelBuilder.Entity<SeatModel>()

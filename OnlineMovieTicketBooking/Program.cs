@@ -23,7 +23,6 @@ namespace OnlineMovieTicketBooking
 
             builder.Services.AddDbContext<DAL.OnlineMovieTicketBookingDBContext>(x=> x.UseSqlServer(builder.Configuration.GetConnectionString("local"))) ;
 
- 
             builder.Services.AddTransient<ITheatreRepo, TheatreRepo>();
             builder.Services.AddTransient<IMovieRepo, MovieRepo>();
             builder.Services.AddTransient<IScreenRepo, ScreenRepo>();
@@ -41,11 +40,10 @@ namespace OnlineMovieTicketBooking
                 option.Password.RequireUppercase = true;
                 option.Password.RequireNonAlphanumeric = true;
                 option.Password.RequiredLength = 8;
-
             })
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<OnlineMovieTicketBookingDBContext>()
-            .AddDefaultTokenProviders(); //add identity token generation festure
+            .AddDefaultTokenProviders(); //add identity token generation feature
 
             builder.Services.ConfigureApplicationCookie(options =>
             {

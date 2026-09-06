@@ -92,6 +92,7 @@ namespace OnlineMovieTicketBooking.Repositories.ShowScheduleRepo
         public async Task<ShowScheduleModel> GetShowScheduleById(int showScheduleId)
         {
             return await _context.ShowSchedules
+                .AsNoTracking()
                 .Include(x => x.Movie)
                 .Include(x => x.Screen)
                 .Include(x => x.ShowSeatPrices)
@@ -113,6 +114,7 @@ namespace OnlineMovieTicketBooking.Repositories.ShowScheduleRepo
                     .Where(x => x.ShowScheduleId == showSchedule.ShowScheduleId)
                     .ToListAsync();
 
+                existingShow.ShowIsActive = showSchedule.ShowIsActive;
                 var regular = prices.FirstOrDefault(x => x.SeatType == SeatType.Regular);
                 var premium = prices.FirstOrDefault(x => x.SeatType == SeatType.Premium);
                 var recliner = prices.FirstOrDefault(x => x.SeatType == SeatType.Recliner);
