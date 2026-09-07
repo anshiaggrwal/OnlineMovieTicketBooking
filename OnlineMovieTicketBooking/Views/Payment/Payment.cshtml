@@ -1,39 +1,95 @@
-﻿@model OnlineMovieTicketBooking.ViewModels.PaymentVM
+@model OnlineMovieTicketBooking.ViewModels.PaymentVM
 
-<h2>Payment</h2>
+@{
+    ViewData["Title"] = "Checkout & Payment";
+}
 
-<div>
-    <h4>Booking Id: @Model.BookingId</h4>
-
-    <h3>Total Amount: ₹@Model.Amount</h3>
-
-    <p>Scan the QR code to make payment.</p>
-
-    <img src="~/images/Payment-qr.jpeg" alt="Payment QR Code" width="250" />
-
-    <p>Demo Payment</p>
-</div>
-
-<form asp-action="Payment" method="post">
-
-    <input type="hidden" asp-for="BookingId" />
-    <input type="hidden" asp-for="Amount" />
-
-    <div>
-        <label asp-for="PaymentMethod"></label>
-
-        <select asp-for="PaymentMethod"
-                asp-items="Html.GetEnumSelectList<OnlineMovieTicketBooking.Models.PaymentMethod>()">
-            <option value="">Select Payment Method</option>
-        </select>
-
-        <span asp-validation-for="PaymentMethod"></span>
+<div class="container py-4">
+    <div class="mb-4">
+        <a asp-controller="Booking" asp-action="MyBookings" class="btn btn-dark-outline btn-sm mb-3">
+            Back to My Bookings
+        </a>
+        <div class="section-subtitle">CHECKOUT</div>
+        <h2 class="text-white fw-bold mb-1 font-display">
+            Complete Your Payment
+        </h2>
+        <p class="text-secondary small mb-0">
+            Scan the QR code with any UPI app or select your preferred payment method below to complete your ticket reservation.
+        </p>
     </div>
 
-    <br />
+    <div class="row g-4">
+        <!-- QR Code & Quick Scan -->
+        <div class="col-lg-5 text-center">
+            <div class="admin-card h-100 d-flex flex-column align-items-center justify-content-center p-4">
+                <div class="mb-3">
+                    <span class="badge bg-dark border border-secondary border-opacity-50 text-light px-3 py-2">100% Secure UPI Gateway</span>
+                </div>
 
-    <button type="submit">Pay Now</button>
+                <div class="p-3 bg-white rounded-3 mb-3 shadow-sm" style="max-width: 250px;">
+                    <img src="~/images/Payment-qr.jpeg"
+                         alt="UPI Payment QR Code"
+                         class="img-fluid"
+                         style="width: 220px; height: 220px; object-fit: contain;" />
+                </div>
 
-    <div asp-validation-summary="All"></div>
+                <div class="text-center">
+                    <span class="badge bg-warning bg-opacity-20 text-warning border border-warning border-opacity-30 mb-2">Scan & Pay Any UPI App</span>
+                    <div class="d-flex justify-content-center gap-2 text-secondary small mt-1">
+                        <span>GPay</span> • <span>PhonePe</span> • <span>Paytm</span> • <span>BHIM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-</form>
+        <!-- Payment Method & Summary -->
+        <div class="col-lg-7">
+            <div class="admin-card p-4">
+                <div class="d-flex justify-content-between align-items-center pb-3 mb-4 border-bottom border-secondary border-opacity-25">
+                    <div>
+                        <small class="text-muted d-block text-uppercase">Booking Reference ID</small>
+                        <h5 class="text-white fw-bold mb-0 font-monospace">#BK-@Model.BookingId</h5>
+                    </div>
+                    <div class="text-end">
+                        <small class="text-muted d-block text-uppercase">Payable Amount</small>
+                        <h3 class="text-warning fw-bold mb-0 font-display">₹@Model.Amount</h3>
+                    </div>
+                </div>
+
+                <form asp-action="Payment" method="post">
+                    <input type="hidden" asp-for="BookingId" />
+                    <input type="hidden" asp-for="Amount" />
+
+                    <div class="mb-4">
+                        <label asp-for="PaymentMethod" class="form-label">
+                            Choose Payment Method
+                        </label>
+
+                        <select asp-for="PaymentMethod"
+                                asp-items="Html.GetEnumSelectList<OnlineMovieTicketBooking.Models.PaymentMethod>()"
+                                class="form-select">
+                            <option value="">Select Payment Method (UPI, Card, Net Banking)</option>
+                        </select>
+
+                        <span asp-validation-for="PaymentMethod" class="text-danger small mt-1 d-block"></span>
+                    </div>
+
+                    <div class="p-3 rounded-3 mb-4" style="background: var(--bg-surface-elevated); border: 1px solid var(--border-glass);">
+                        <div class="text-secondary small mb-1">
+                            Instant ticket confirmation upon payment verification
+                        </div>
+                        <div class="text-secondary small">
+                            Digital boarding pass will be generated in My Bookings
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary-cinema w-100 py-3 fs-6">
+                        Confirm & Pay ₹@Model.Amount
+                    </button>
+
+                    <div asp-validation-summary="All" class="text-danger mt-3 bg-danger bg-opacity-10 p-3 rounded-3 border border-danger border-opacity-25" style="display: @(ViewData.ModelState.IsValid ? "none" : "block")"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

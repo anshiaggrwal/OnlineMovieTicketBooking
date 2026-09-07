@@ -1,80 +1,119 @@
 @model OnlineMovieTicketBooking.ViewModels.MovieVM
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model?.MovTitle ?? "Movie Details";
+    var activeShows = Model?.ShowSchedules?.Where(s => s.ShowIsActive).OrderBy(s => s.ShowDate).ThenBy(s => s.ShowStartTime).ToList();
+    var theatreGroups = activeShows?.GroupBy(s => s.Screen?.Theatre?.TheaName ?? "Theatre").ToList();
 }
 
-<h1>Details</h1>
+<div class="container py-4">
+    <div class="mb-4">
+        <a asp-action="Index" class="btn btn-dark-outline btn-sm">
+            Back to Catalogue
+        </a>
+    </div>
 
-<div>
-    <h4>MovieModel</h4>
-    <hr />
+    <div class="admin-card p-4 p-md-5">
+        <div class="row g-4">
+            <!-- Movie Poster Column -->
+            <div class="col-md-4 col-lg-3 text-center">
+                <div class="movie-poster-wrap rounded-4 shadow-lg overflow-hidden border border-secondary border-opacity-25" style="max-width: 280px; height: 380px; margin: 0 auto;">
+                    @if (!string.IsNullOrEmpty(Model?.MovPosterUrl))
+                    {
+                        <img src="@Model.MovPosterUrl"
+                             alt="@Model.MovTitle"
+                             style="width: 100%; height: 100%; object-fit: cover;"
+                             onerror="this.src='https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=80';" />
+                    }
+                    else
+                    {
+                        <div class="w-100 h-100 d-flex align-items-center justify-content-center text-muted">
+                            No Poster
+                        </div>
+                    }
+                </div>
+            </div>
 
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MovTitle)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.MovTitle)
-        </dd>
+            <!-- Movie Details Column -->
+            <div class="col-md-8 col-lg-9">
+                <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                    @if (!string.IsNullOrEmpty(Model?.MovGenre))
+                    {
+                        <span class="badge bg-dark border border-secondary border-opacity-50 text-light">@Model.MovGenre</span>
+                    }
+                    @if (!string.IsNullOrEmpty(Model?.MovLanguage))
+                    {
+                        <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25">@Model.MovLanguage</span>
+                    }
+                    @if (Model?.MovIsActive == true)
+                    {
+                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1">Now Showing</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary bg-opacity-10 text-muted border border-secondary border-opacity-25 px-2 py-1">Inactive</span>
+                    }
+                </div>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MovDescription)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.MovDescription)
-        </dd>
+                <h1 class="hero-heading mb-2 fs-2">@Model?.MovTitle</h1>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MovGenre)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.MovGenre)
-        </dd>
+                <div class="d-flex flex-wrap align-items-center gap-3 text-secondary small mb-4">
+                    <span>@(Model?.MovDuration) minutes</span>
+                    <span>•</span>
+                    <span>Released: @(Model?.MovRelDate.ToString("dd MMM yyyy") ?? "-")</span>
+                </div>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MovLanguage)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.MovLanguage)
-        </dd>
+                <div class="mb-4">
+                    <h5 class="text-white fw-bold font-display mb-2">Synopsis</h5>
+                    <p class="text-secondary leading-relaxed" style="font-size: 0.95rem; line-height: 1.7;">
+                        @(string.IsNullOrEmpty(Model?.MovDescription) ? "No synopsis provided for this movie." : Model.MovDescription)
+                    </p>
+                </div>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MovDuration)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.MovDuration)
-        </dd>
+                <!-- Available Shows Grouped by Theatre -->
+                @if (activeShows != null && activeShows.Any())
+                {
+                    <div class="mb-4">
+                        <h6 class="text-warning fw-bold text-uppercase small mb-3" style="letter-spacing: 0.05em;">Available Theatres & Showtimes</h6>
+                        <div class="d-flex flex-column gap-3">
+                            @foreach (var theatreGroup in theatreGroups)
+                            {
+                                <div class="theatre-showtimes-box p-3 rounded-3" style="background: var(--bg-surface-elevated); border: 1px solid var(--border-glass);">
+                                    <div class="theatre-name-tag text-warning fw-bold fs-6 mb-2">
+                                        @theatreGroup.Key
+                                    </div>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        @foreach (var show in theatreGroup)
+                                        {
+                                            <a asp-controller="Booking"
+                                               asp-action="SelectSeats"
+                                               asp-route-showScheduleId="@show.ShowScheduleId"
+                                               class="btn-showtime-slot px-3 py-2"
+                                               title="@(show.Screen?.ScreenName) | @show.ShowDate.ToString("dd MMM yyyy")">
+                                                <span class="fw-bold text-white fs-6">@show.ShowStartTime.ToString(@"hh\:mm")</span>
+                                                <span class="slot-date">@show.ShowDate.ToString("dd MMM yyyy")</span>
+                                                <small class="text-muted" style="font-size: 0.65rem;">@(show.Screen?.ScreenName)</small>
+                                            </a>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MovRelDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.MovRelDate)
-        </dd>
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MovPosterUrl)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.MovPosterUrl)
-        </dd>
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MovIsActive)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.MovIsActive)
-        </dd>
-    </dl>
-</div>
-
-<div>
-    @if (User.IsInRole("Admin"))
-    {
-        <a asp-action="Edit" asp-route-id="@Model?.MovieId">Edit</a>
-        <span> | </span>
-    }
-
-    <a asp-action="Index">Back to List</a>
+                <div class="d-flex flex-wrap gap-2 pt-3 border-top border-secondary border-opacity-25">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@Model?.MovieId" class="btn btn-primary-cinema">
+                            Edit Movie
+                        </a>
+                    }
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-dark-outline">
+                        Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -1,68 +1,89 @@
-﻿@model OnlineMovieTicketBooking.ViewModels.LoginVM
+@model OnlineMovieTicketBooking.ViewModels.LoginVM
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Account Sign In";
 }
 
-<div class="auth-wrapper">
-    <div class="auth-card">
+<div class="auth-page-wrap">
+    <div class="auth-clean-card text-center">
 
-        <div class="text-center mb-4">
-            <h2 class="fw-bold">Welcome Back</h2>
-            <p class="text-muted mb-0">
-                Log in to book tickets and manage your bookings.
-            </p>
+        <!-- Top CineMento Brand Emblem -->
+        <div class="d-flex justify-content-center mb-3">
+            <div class="logo-mark" style="width: 52px; height: 52px;">
+                <svg width="52" height="52" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="loginGoldGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#FFE8A3" />
+                            <stop offset="40%" stop-color="#F3B768" />
+                            <stop offset="100%" stop-color="#D97706" />
+                        </linearGradient>
+                        <linearGradient id="loginGoldGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#FFFBEB" />
+                            <stop offset="60%" stop-color="#E5A65D" />
+                            <stop offset="100%" stop-color="#92400E" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M22 6C12.06 6 4 14.06 4 24C4 33.94 12.06 42 22 42C27.5 42 32.4 39.6 35.8 35.8L30.8 31.2C28.5 33.6 25.4 35 22 35C15.92 35 11 30.08 11 24C11 17.92 15.92 13 22 13C25.4 13 28.5 14.4 30.8 16.8L35.8 12.2C32.4 8.4 27.5 6 22 6Z" fill="url(#loginGoldGrad1)" />
+                    <path d="M25 16.5L42 8V40L25 31.5V16.5Z" fill="url(#loginGoldGrad2)" />
+                    <polygon points="19,16.5 28,24 19,31.5" fill="#FFFFFF" />
+                </svg>
+            </div>
         </div>
+
+        <h2 class="auth-heading mb-4">Account Sign In</h2>
 
         <form asp-controller="Account"
               asp-action="Login"
               asp-route-returnUrl="@ViewBag.ReturnUrl"
-              method="post">
+              method="post"
+              class="text-start">
 
             <div asp-validation-summary="ModelOnly"
-                 class="text-danger mb-3"></div>
+                 class="alert alert-danger bg-danger bg-opacity-10 border border-danger border-opacity-25 text-danger small py-2 mb-3"></div>
 
             <div class="mb-3">
-                <label asp-for="Email" class="form-label"></label>
+                <label asp-for="Email" class="form-label-clean">Email Address</label>
                 <input asp-for="Email"
-                       class="form-control"
-                       placeholder="Enter your email address" />
-                <span asp-validation-for="Email"
-                      class="text-danger small"></span>
+                       class="form-control form-control-clean"
+                       placeholder="Enter your email" />
+                <span asp-validation-for="Email" class="text-danger small mt-1 d-block"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Password" class="form-label"></label>
+                <label asp-for="Password" class="form-label-clean">Password</label>
                 <input asp-for="Password"
-                       class="form-control"
+                       type="password"
+                       class="form-control form-control-clean"
                        placeholder="Enter your password" />
-                <span asp-validation-for="Password"
-                      class="text-danger small"></span>
+                <span asp-validation-for="Password" class="text-danger small mt-1 d-block"></span>
             </div>
 
-            <div class="mb-4 form-check">
+            <div class="mb-4 form-check d-flex align-items-center gap-2">
                 <input asp-for="RememberMe"
-                       class="form-check-input" />
+                       class="form-check-input form-check-input-clean m-0" />
                 <label asp-for="RememberMe"
-                       class="form-check-label">
-                    Remember Me
+                       class="form-check-label text-secondary small mb-0">
+                    Remember me
                 </label>
             </div>
 
             <button type="submit"
-                    class="btn btn-primary-cinema w-100">
-                Log In
+                    class="btn-auth-submit">
+                Sign In
             </button>
 
         </form>
 
-        <p class="text-center text-muted mt-4 mb-0">
-            Don't have an account?
-            <a asp-controller="Account"
-               asp-action="Register">
-                Sign up
-            </a>
-        </p>
+        <div class="text-center mt-4 pt-3 border-top border-secondary border-opacity-25">
+            <p class="text-secondary small mb-0">
+                Don't have an account?
+                <a asp-controller="Account"
+                   asp-action="Register"
+                   class="text-warning fw-bold text-decoration-none ms-1">
+                    Create Account
+                </a>
+            </p>
+        </div>
 
     </div>
 </div>
