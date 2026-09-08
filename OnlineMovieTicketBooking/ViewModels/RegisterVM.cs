@@ -19,6 +19,7 @@ namespace OnlineMovieTicketBooking.ViewModels
         [Display(Name = "Phone Number")]
         [Required(ErrorMessage = "Phone number is required")]
         [Phone(ErrorMessage = "Enter a valid phone number")]
+        [RegularExpression(@"^[6-9]\d{9}$", ErrorMessage = "Enter a valid 10-digit phone number")]
         public string PhoneNumber { get; set; } = string.Empty;
 
 
