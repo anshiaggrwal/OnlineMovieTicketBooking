@@ -12,7 +12,7 @@ using OnlineMovieTicketBooking.DAL;
 namespace OnlineMovieTicketBooking.Migrations
 {
     [DbContext(typeof(OnlineMovieTicketBookingDBContext))]
-    [Migration("20260901172912_test")]
+    [Migration("20260907085531_test")]
     partial class test
     {
         /// <inheritdoc />

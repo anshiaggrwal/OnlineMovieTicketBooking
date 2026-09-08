@@ -21,7 +21,7 @@ namespace OnlineMovieTicketBooking
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddDbContext<DAL.OnlineMovieTicketBookingDBContext>(x=> x.UseSqlServer(builder.Configuration.GetConnectionString("local"))) ;
+            builder.Services.AddDbContext<DAL.OnlineMovieTicketBookingDBContext>(x=> x.UseSqlServer(builder.Configuration.GetConnectionString("AzureConn"))) ;
 
             builder.Services.AddTransient<ITheatreRepo, TheatreRepo>();
             builder.Services.AddTransient<IMovieRepo, MovieRepo>();
@@ -29,7 +29,9 @@ namespace OnlineMovieTicketBooking
             builder.Services.AddTransient<IBookingRepo, BookingRepo>();
             builder.Services.AddTransient<IShowScheduleRepo, ShowScheduleRepo>();
             builder.Services.AddTransient<IPaymentRepo, PaymentRepo>();
-            builder.Services.AddAutoMapper(typeof(AccountMapper));
+            builder.Services.AddAutoMapper(cfg => {},typeof(Program).Assembly);
+
+           
 
             // ASP.NET core Identity
             IdentityBuilder identityBuilder = builder.Services.AddDefaultIdentity<ApplicationUser>(option =>
