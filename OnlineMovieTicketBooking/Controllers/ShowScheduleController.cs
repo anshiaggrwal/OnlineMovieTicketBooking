@@ -66,7 +66,7 @@ namespace OnlineMovieTicketBooking.Controllers
             }
             else
             {
-                ModelState.AddModelError("", "This screen already has a show at this time.");
+                ModelState.AddModelError("", "This screen already has a show at this time or movie is not yet released ");
                 await LoadDropdowns();
                 return View(showScheduleVM);
             }
@@ -173,6 +173,8 @@ namespace OnlineMovieTicketBooking.Controllers
             }
             else
             {
+                ModelState.Clear();
+                ModelState.AddModelError("", "Show Schedule cannot be deleted because it has bookings.");
                 return View(showScheduleVM);
             }
         }

@@ -150,6 +150,8 @@ namespace OnlineMovieTicketBooking.Controllers
             }
             else
             {
+                ModelState.Clear();
+                ModelState.AddModelError("", "Screen cannot be deleted because it has shows.");
                 return View(screenVM);
             }
 

@@ -19,9 +19,18 @@ namespace OnlineMovieTicketBooking.Repositories.ShowScheduleRepo
             try
             {
                 var movie = await _context.Movies
-                    .FirstOrDefaultAsync(x => x.MovieId == showSchedule.MovieId);
+                    .Where(x => x.MovieId == showSchedule.MovieId).FirstOrDefaultAsync();
 
                 if (movie == null)
+                    return 0;
+                if (!movie.MovIsActive)
+                    return 0;
+                if (showSchedule.ShowDate < movie.MovRelDate)
+                    return 0;
+                var screen = await _context.Screens
+                .Where(x => x.ScreenId == showSchedule.ScreenId).FirstOrDefaultAsync();
+
+                if (screen == null || !screen.ScreenIsActive)
                     return 0;
 
                 showSchedule.ShowEndTime = showSchedule.ShowStartTime.AddMinutes(movie.MovDuration).AddMinutes(30);

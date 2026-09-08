@@ -146,6 +146,8 @@ namespace OnlineMovieTicketBooking.Controllers
             }
             else
             {
+                ModelState.Clear();
+                ModelState.AddModelError("", "Theatre cannot be deleted because one or more screens have shows.");
                 return View(theatreVM);
             }
 

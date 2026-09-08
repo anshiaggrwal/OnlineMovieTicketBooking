@@ -32,6 +32,23 @@ namespace OnlineMovieTicketBooking.Repositories.TheatreRepo
         {
             try
             {
+                var screens = await _context.Screens.Where(x => x.TheatreId == theatre.TheatreId).ToListAsync();
+
+                foreach (var screen in screens)
+                {
+                    var hasShows = await _context.ShowSchedules
+                        .AnyAsync(x => x.ScreenId == screen.ScreenId);
+
+                    if (hasShows)
+                        return 0;
+
+                    var seats = await _context.Seats
+                        .Where(x => x.ScreenId == screen.ScreenId)
+                        .ToListAsync();
+
+                    _context.Seats.RemoveRange(seats);
+                    _context.Screens.Remove(screen);
+                }
                 _context.Theatres.Remove(theatre);
                 await _context.SaveChangesAsync();
                 return 1;

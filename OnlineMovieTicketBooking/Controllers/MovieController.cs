@@ -149,6 +149,8 @@ namespace OnlineMovieTicketBooking.Controllers
             }
             else
             {
+                ModelState.Clear();
+                ModelState.AddModelError("", "Movie cannot be deleted because this movie is scheduled in multiple theatres and multiple bookings exist for this movie.");
                 return View(movieVM);
             }
 

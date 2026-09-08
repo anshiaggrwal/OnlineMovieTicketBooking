@@ -19,6 +19,11 @@ namespace OnlineMovieTicketBooking.Repositories.ScreenRepo
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
+                var theatre = await _context.Theatres.Where(x => x.TheatreId == screen.TheatreId).FirstOrDefaultAsync();
+
+                if (theatre == null || !theatre.TheaIsActive)
+                    return 0;
+
                 _context.Screens.Add(screen);
                 await _context.SaveChangesAsync();
                 await CreateSeats(screen);
@@ -37,6 +42,9 @@ namespace OnlineMovieTicketBooking.Repositories.ScreenRepo
         {
             try
             {
+                var seats = await _context.Seats.Where(x => x.ScreenId == screen.ScreenId).ToListAsync();
+
+                _context.Seats.RemoveRange(seats);
                 _context.Screens.Remove(screen);
                 await _context.SaveChangesAsync();
                 return 1;
